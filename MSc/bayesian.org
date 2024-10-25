@@ -1,47 +1,7 @@
 #+TITLE:     Bayesian Inference and Hypothesis Testing
 #+AUTHOR: Christos Dimitrakakis
 #+EMAIL:christos.dimitrakakis@unine.ch
-#+LaTeX_HEADER: \usepackage{tikz}
-#+LaTeX_HEADER: \usepackage{amsmath}
-#+LaTeX_HEADER: \usepackage{amssymb}
-#+LaTeX_HEADER: \usepackage{isomath}
-#+LaTeX_HEADER: \newcommand \E {\mathop{\mbox{\ensuremath{\mathbb{E}}}}\nolimits}
-#+LaTeX_HEADER: \newcommand \Var {\mathop{\mbox{\ensuremath{\mathbb{V}}}}\nolimits}
-#+LaTeX_HEADER: \newcommand \Bias {\mathop{\mbox{\ensuremath{\mathbb{B}}}}\nolimits}
-#+LaTeX_HEADER: \newcommand\ind[1]{\mathop{\mbox{\ensuremath{\mathbb{I}}}}\left\{#1\right\}}
-#+LaTeX_HEADER: \renewcommand \Pr {\mathop{\mbox{\ensuremath{\mathbb{P}}}}\nolimits}
-#+LaTeX_HEADER: \DeclareMathOperator*{\argmax}{arg\,max}
-#+LaTeX_HEADER: \DeclareMathOperator*{\argmin}{arg\,min}
-#+LaTeX_HEADER: \DeclareMathOperator*{\sgn}{sgn}
-#+LaTeX_HEADER: \newcommand \defn {\mathrel{\triangleq}}
-#+LaTeX_HEADER: \newcommand \Reals {\mathbb{R}}
-#+LaTeX_HEADER: \newcommand \Params {\Theta}
-#+LaTeX_HEADER: \newcommand \param {\theta}
-#+LaTeX_HEADER: \newcommand \vparam {\vectorsym{\theta}}
-#+LaTeX_HEADER: \newcommand \mparam {\matrixsym{\Theta}}
-#+LaTeX_HEADER: \newcommand \bW {\matrixsym{W}}
-#+LaTeX_HEADER: \newcommand \bw {\vectorsym{w}}
-#+LaTeX_HEADER: \newcommand \wi {\vectorsym{w}_i}
-#+LaTeX_HEADER: \newcommand \wij {w_{i,j}}
-#+LaTeX_HEADER: \newcommand \bA {\matrixsym{A}}
-#+LaTeX_HEADER: \newcommand \ai {\vectorsym{a}_i}
-#+LaTeX_HEADER: \newcommand \aij {a_{i,j}}
-#+LaTeX_HEADER: \newcommand \bx {\vectorsym{x}}
-#+LaTeX_HEADER: \newcommand \pol {\pi}
-#+LaTeX_HEADER: \newcommand \Pols {\Pi}
-#+LaTeX_HEADER: \newcommand \bel {\beta}
-#+LaTeX_HEADER: \newcommand \Bels {\mathcal{B}}
-#+LaTeX_HEADER: \newcommand \Ber {\textrm{Bernoulli}}
-#+LaTeX_HEADER: \newcommand \Mult {\textrm{Mult}}
-#+LaTeX_HEADER: \newcommand \Beta {\textrm{Beta}}
-#+LaTeX_HEADER: \newcommand \Dir {\textrm{Dir}}
-#+LaTeX_HEADER: \newcommand \Normal {\textrm{Normal}}
-#+LaTeX_HEADER: \newcommand \Simplex {\mathbb{\Delta}}
-#+LaTeX_HEADER: \usepackage[bbgreekl]{mathbbol}
-#+LaTeX_HEADER: \tikzstyle{utility}=[diamond,draw=black,draw=blue!50,fill=blue!10,inner sep=0mm, minimum size=8mm]
-#+LaTeX_HEADER: \tikzstyle{select}=[rectangle,draw=black,draw=blue!50,fill=blue!10,inner sep=0mm, minimum size=6mm]
-#+LaTeX_HEADER: \tikzstyle{hidden}=[dashed,draw=black,fill=red!10]
-#+LaTeX_HEADER: \tikzstyle{RV}=[circle,draw=black,draw=blue!50,fill=blue!10,inner sep=0mm, minimum size=6mm]
+#+LaTeX_HEADER: \input{preamble}
 #+LaTeX_CLASS_OPTIONS: [smaller]
 #+LATEX_HEADER: \RequirePackage{fancyvrb}
 #+COLUMNS: %40ITEM %10BEAMER_env(Env) %9BEAMER_envargs(Env Args) %4BEAMER_col(Col) %10BEAMER_extra(Extra)
@@ -89,15 +49,14 @@
 #+TOC: headlines
 ** The murder problem
 #+ATTR_BEAMER: :overlay <+->
-- Somebody saw somebody matching their description and he was found
-       in the neighbourghood. There is no other evidence.
+-  A murder occurred in a house over Christmas. There were $n$ people inside, plus the victim. Person X, the victim's son, is accused of a murder. 
 
 - There are two possibilities:
        - $H_0$: They are innocent.
        - $H_1$: They are guilty.
-
+#+BEAMER: \pause	
        What is your belief that they have committed the crime? 
-	
+#+BEAMER: \pause	
 *** Prior elicitation
 #+ATTR_BEAMER: :overlay <+->
 - All those that think the accused is guilty, raise their hand.
@@ -113,7 +72,7 @@
 *** DNA test properties
  #+ATTR_BEAMER: :overlay <+->
  - $D$: Test is positive
- - $P(D | H_0) = 1\%$: False positive rate
+ - $P(D | H_0) = 10\%$: False positive rate
  - $P(D | H_1) = 100\%$: True positive rate
 
 #+BEAMER: \pause
@@ -125,7 +84,7 @@
 
 ** Everybody is a suspect
        #+ATTR_BEAMER: :overlay <+->
-- Run a DNA test on everybody.
+- Run a DNA test on everybody in the house.
 - What is different from before?
 - Who has a positive test?
 - What is your belief that the people with the positive test are guilty?
@@ -135,7 +94,12 @@
 - Prior: $P(H_i)$.
 - Likelihood $P(D | H_i)$.
 - Posterior: $P(H_i | D) = P(D \cap H_i) / P(D) = P(D | H_i) P(H_i) / P(D)$
-- Marginal probability: $P(D) = P(D | H_0) P(H_0) + P(D | H_1) P(H_1)$
+- Marginal probability: 
+\begin{align}
+P(D)
+& = P(D \cap H_0) + P(D \cap H_1)\\
+& = P(D | H_0) P(H_0) + P(D | H_1) P(H_1)
+\end{align}
 - Posterior: $P(H_0 | D) = \frac{P(D | H_0) P(H_0)}{P(D | H_0) P(H_0) + P(D | H_1) P(H_1)}$
 - Assuming $P(D | H_1) = 1$, and setting $P(H_0) = q$, this gives
        \[
@@ -145,29 +109,18 @@
 ** Python example
 
 #+BEGIN_SRC python
-# the input to the function is the prior, the likelihood function, and posteriors
-# Input:
-# - prior for hypothesis 0 (scalar)
-# - data (single data point)
-# - likelihood[data][hypothesis] array unction
-# Returns:
-# - posterior for the data point (if multiple points are given, the calculation is repeated)
 def get_posterior(prior, data, likelihood):
     marginal = prior * likelihood[data][0] + (1 - prior) * likelihood[data][1]
     posterior = prior * likelihood[data][0] / marginal
     return posterior
 
 import numpy as np
-prior = 0.9
+prior = 0.9 # Pr(H1)
 likelihood = np.zeros([2, 2])
-# pr of negative test if not a match
-likelihood[0][0] = 0.9
-# pr of positive test if not a match
-likelihood[1][0] = 0.1
-# pr of negative test if a match
-likelihood[0][1] = 0
-# pr of positive test if a match
-likelihood[1][1] = 1
+likelihood[0][0] = 0.9 # Pr(F|H0)
+likelihood[1][0] = 0.1 # Pr(T|H0)
+likelihood[0][1] = 0 # Pr(F|H1)
+likelihood[1][1] = 1 # Pr(T|H1)
 data = 1
 return get_posterior(prior, data, likelihood)
 #+END_SRC
@@ -204,50 +157,135 @@ Example: Are men's and women's heights the same?
 #+ATTR_BEAMER: :overlay <+->
 - Defining the models $P(D | H_i)$ incorrectly.
 - Using an "unreasonable" prior $P(H_i)$
-
+#+BEAMER: \pause
 *** The garden of many paths
 #+ATTR_BEAMER: :overlay <+->
 - Having a huge hypothesis space
 - Selecting the relevant hypothesis after seeing the data
 
-
 * Bayesian Inference
-** Bayesian Inference
+** Probabilistic models
+#+ATTR_BEAMER: :overlay <+->
+- Model family $\{P_\param |  \param \in \Param\}$
+- Data $x \sim P_{\param^*}$ for some $\param^* \in \Param$.
+- How can we estimate the correct $\param$?
+- How can we predict a new data point?
+#+BEAMER: \pause
+*** Bernoulli model :B_example:
+    :PROPERTIES:
+    :BEAMER_env: example
+    :END:
+**** Col A                                                            :BMCOL:
+     :PROPERTIES:
+     :BEAMER_col: 0.5
+     :END:
+#+ATTR_BEAMER: :overlay <+->
+- $x \in \{0,1\}$, $\param \in [0,1]$
+- $x \mid \param \sim \Ber(\param)$
+- P_\param(x = 1) = \param
+- P_\param(x = 0) = 1 - \param.
+**** Col B                                                            :BMCOL:
+     :PROPERTIES:
+     :BEAMER_col: 0.5
+     :END:
+\begin{tikzpicture}
+\node[RV] at (1,0) (x) {$x_t$};
+\node[RV,hidden] at (0,0) (mean) {$\theta$};
+\draw[->] (mean) to (x);
+\end{tikzpicture}
+#+BEAMER: \pause
+*** Gaussian model                                                :B_example:
+    :PROPERTIES:
+    :BEAMER_env: example
+    :END:
+**** Col A                                                            :BMCOL:
+     :PROPERTIES:
+     :BEAMER_col: 0.5
+     :END:
+#+ATTR_BEAMER: :overlay <+->
+- $x \in \Reals$, $\mu \in \Reals, \sigma \in \Reals_+$
+- $x \mid \mu, \sigma \sim \Normal(\mu, \sigma)$
+- $p_\param(x) = \frac{1}{\sigma\sqrt{2\pi}}\exp\left(-\frac{(x - \mu)^2}{2\sigma^2}\right)$
+**** Col B                                                            :BMCOL:
+     :PROPERTIES:
+     :BEAMER_col: 0.5
+     :END:
+\begin{tikzpicture}
+\node[RV] at (1,0) (x) {$x_t$};
+\node[RV,hidden] at (0,0) (mean) {$\mu$};
+\node[RV,hidden] at (0,1) (std) {$\sigma$};
+\draw[->] (mean) to (x);
+\draw[->] (std) to (x);
+\end{tikzpicture}
 
-- Model family $\{P_\param |  \param \in \Params\}$
+
+** Maximum likelihood (ML) inference
+- Family $\{P_\param |  \param \in \Param\}$
+- Data $x$ with *likelihood* $P_\param(x)$ for each parameter value $\param$.
+- $\param_{\textrm{ML}}(x) = \argmax_\param P_\param(x)$
+*** Bernoulli model :B_example:
+    :PROPERTIES:
+    :BEAMER_env: example
+    :END:
+#+ATTR_BEAMER: :overlay <+->
+- $x_t \in \{0,1\}$, for $t \in [T]$, $\param \in [0,1]$
+- $x_t \mid \param \sim \Ber(\param)$
+- $P_\param(x_1, \ldots, x_T)  = \prod_{t=1}^T P_\param(x_t)$
+- What maximises the likelihood?
+- Define $s_T = \sum_{t=1}^T x_t$.
+- Show that $\param_{\textrm{ML}}(x) = s_T / T$.
+- What is the problem with this estimate?
+
+
+** Maximum a posteriori (MAP) inference
+- Family $\{P_\param |  \param \in \Param\}$
+- Data $x$ with *likelihood* $P_\param(x)$ for each parameter value $\param$.
+- *Prior* $\bel(\param)$.
+- $\param_{\textrm{MAP}}(x) = \argmax_\param P_\param(x) \bel(\param)$
+- Experiment with the prior for the Bernoulli model.
+
+
+** Bayesian Inference
+#+ATTR_BEAMER: :overlay <+->
+- Model family $\{P_\param |  \param \in \Param\}$
 - Each model $\param$ assigns probabilities $P_\param(x)$  to possible $x \in X$.
 - We also have a (subjective) prior distribution $\bel$ over the parameters.
 - Given $x$, we calculate the posterior distribution
+#+BEAMER: \pause
 \begin{align}
 \bel(\param | x)
-& = \frac{P_\param(x) \bel(\param)}{\sum_{\param' \in \Params} P_{\param'}(x) \bel(\param')},
-\tag{finite $\Params$}
+& = \frac{P_\param(x) \bel(\param)}{\sum_{\param' \in \Param} P_{\param'}(x) \bel(\param')},
+\tag{finite $\Param$, $\bel$ is a probability}
 \\
-\bel(\param | x)
-& = \frac{P_\param(x) \bel(\param)}{\int_{\Params} P_{\param'}(x) \bel(\param') d\param'},
-\tag{continuous $\Params$}
+\dbel(\param | x)
+& = \frac{P_\param(x) \dbel(\param)}{\int_{\Param} P_{\param'}(x) \dbel(\param') d\param'},
+\tag{continuous $\Param$, $\dbel$ is a density}
 \\
 \bel(B | x)
 & = \frac{\int_{B} P_{\param'}(x) d\bel(\param)}
-{\int_{\Params}P_{\param'}(x) d\bel(\param)},
-&& B \subset \Params
-\tag{arbitrary $\Params$}
+{\int_{\Param}P_{\param'}(x) d\bel(\param)},
+&& B \subset \Param
+\tag{arbitrary $\Param$, $\bel$ is a measure}
 \end{align}
+#+BEAMER: \pause
 *** Alternative notation for different probability spaces
 - The *prior* $\bel(\param) = \Pr(\param)$ and *posterior* $\bel(\param \mid x) = \Pr(\param \mid x)$ belief.
 - The *likelihood* $P_\param(x) = \Pr(x \mid \param)$
 - The *marginal* $\Pr_\bel(x) = \sum_\param P_\param(x) \bel(\param)$.
 ** Probabilistic machine learning
-*** Setting
-- Model family $\{P_\param |  \param \in \Params\}$
-- Prior $\bel$ on $\Params$
+#+ATTR_BEAMER: :overlay <+->
+- Model family $\{P_\param |  \param \in \Param\}$
+- Prior $\bel$ on $\Param$
 - Observations $x = x_1, \ldots, x_t$.
+#+BEAMER: \pause
 *** Maximum likelihood approach
 - Model selection: $\param^*_{ML}(x) = \argmax_\param P_\param(x)$.
 - Model prediction: $P_{\param^*_{ML}(x)}(x_{t+1})$ 
+#+BEAMER: \pause
 *** Maximum a posteriori approach
 - Model selection: $\param^*_{MAP}(x) = \argmax_\param P_\param(x) \bel(\param)$.
 - Model prediction: $P_{\param^*_{MAP}(x)}(x_{t+1})$ 
+#+BEAMER: \pause
 *** Bayesian approach
 - Posterior calculation: $\bel(\param | x) = P_\param(x) \bel(\param) / \Pr_\bel(x)$
 - Model prediction: $\Pr_\bel(x_{t+1} | x) = \sum_\param P_\param(x_{t+1}) \bel(\param | x)$ 
@@ -298,14 +336,14 @@ This is any function $f : X \to S$ where
 - The sample mean of a sequence $1/T \sum_{t=1}^T x_t$
 - The total number of samples $T$
 *** Sufficient statistic
-$f$ is sufficient for a family $\{P_\param : \param \in \Params\}$ when
+$f$ is sufficient for a family $\{P_\param : \param \in \Param\}$ when
 \[
-f(x) = f(x') \Rightarrow P_\param(x) = P_\param(x') \forall \param \in \Params.
+f(x) = f(x') \Rightarrow P_\param(x) = P_\param(x') \forall \param \in \Param.
 \]
 If there exists a finite-dimensional sufficient statistic, Bayesian and ML learning can be done in closed form within the family.
 ** Conjugate priors
-Consider a parametrised family of priors $\Bels$ on $\Params$ and a distribution family $\{P_\param\}$
-The pair is conjugate if, for any prior $\bel \in \Bels$, and any observation $x$, there exists $\bel' \in \Bels$ such that $\bel'(\param) = \bel(\param | x)$
+Consider a parametrised family of priors $\Bel$ on $\Param$ and a distribution family $\{P_\param\}$
+The pair is conjugate if, for any prior $\bel \in \Bel$, and any observation $x$, there exists $\bel' \in \Bel$ such that $\bel'(\param) = \bel(\param | x)$
 *** Standard Parametric conjugate families
 |---------------+------------+---------------------------------+-----------------------|
 | Prior         | Likelihood | Parameters $\param$             | Observations $x$      |
